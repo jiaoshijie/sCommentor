@@ -5,12 +5,24 @@ local Len = function(str)
   return str.len(str)
 end
 
+-- TODO
+local TabsAndSpaces = function(line)
+  local count = 0
+  for i = 1, Len(line) do
+    if (line.sub(line, i, i) ~= '\t' and line.sub(line, i, i) ~= ' ') then
+      break
+    end
+    count = count + 1
+  end
+  return count
+end
+
 local DetectMinIndent = function(Start, End)
-  local min_indent = vf.indent(Start)
+  local min_indent = TabsAndSpaces(vf.getline(Start))
   local tmp = Start + 1
   while tmp <= End do
-    if min_indent > vf.indent(tmp) then
-      min_indent = vf.indent(tmp)
+    if min_indent > TabsAndSpaces(vf.getline(tmp)) then
+      min_indent = TabsAndSpaces(vf.getline(tmp))
     end
     tmp = tmp + 1
   end
@@ -19,9 +31,9 @@ end
 
 local InsertOrRemoveComment = function(lnum, line, indent, is_remove, symbol)
   if is_remove then  -- remove
-    local indent_spaces = vf.indent(lnum) ~= 0 and line.sub(line, 1, vf.indent(lnum)) or ''
+    local indent_spaces = TabsAndSpaces(line) ~= 0 and line.sub(line, 1, TabsAndSpaces(line)) or ''
     vf.setline(lnum,
-              indent_spaces .. line.sub(line, vf.indent(lnum) + Len(symbol['prefix']) + 1,
+              indent_spaces .. line.sub(line, TabsAndSpaces(line) + Len(symbol['prefix']) + 1,
               Len(line) - Len(symbol['suffix'])))
   else  -- insert
     local indent_spaces = indent ~= 0 and line.sub(line, 1, indent) or ''
@@ -40,8 +52,8 @@ _M.Toggle_Comment = function(count)
   local min_indent = DetectMinIndent(line_start, line_end)
   local lines = line_start == line_end and { vf.getline(line_start) } or vf.getline(line_start, line_end)
   local is_remove = lines[1].sub(lines[1],
-                    vf.indent(line_start) + 1,
-                    vf.indent(line_start) + Len(symbol['prefix'])) == symbol['prefix']
+                    TabsAndSpaces(vf.getline(line_start)) + 1,
+                    TabsAndSpaces(vf.getline(line_start)) + Len(symbol['prefix'])) == symbol['prefix']
 
   for _, line in pairs(lines) do
     if Len(line) > 0 then
