@@ -3,6 +3,7 @@ local _symbols = {
   vim = { prefix = '" ', suffix = '' },
   c = { prefix = '// ', suffix = ''},  -- { prefix = '/* ', suffix = ' */'}
   cpp = { prefix = '// ', suffix = '' },
+  go = { prefix = '// ', suffix = '' },
   html = { prefix = '<!-- ', suffix = ' -->' },
   css = { prefix = '/* ', suffix = ' */' },
   javascript = { prefix = '// ', suffix = '' },
