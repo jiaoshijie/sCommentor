@@ -1,5 +1,6 @@
 local _symbols = {
   lua = { prefix = '-- ', suffix = '' },
+  haskell = { prefix = '-- ', suffix = '' },
   vim = { prefix = '" ', suffix = '' },
   c = { prefix = '// ', suffix = ''},  -- { prefix = '/* ', suffix = ' */'}
   cpp = { prefix = '// ', suffix = '' },
@@ -13,6 +14,8 @@ local _symbols = {
   sh = { prefix = '# ', suffix = '' },
   conf = { prefix = '# ', suffix = '' },
   tex = { prefix = '% ', suffix = '' },
+  lisp = { prefix = ';; ', suffix = '' },
+  rust = { prefix = '// ', suffix = '' },
 }
 
 return _symbols
