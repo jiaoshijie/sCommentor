@@ -21,8 +21,9 @@ local DetectMinIndent = function(Start, End)
   local min_indent = TabsAndSpaces(vf.getline(Start))
   local tmp = Start + 1
   while tmp <= End do
-    if min_indent > TabsAndSpaces(vf.getline(tmp)) then
-      min_indent = TabsAndSpaces(vf.getline(tmp))
+    local line = vf.getline(tmp)
+    if min_indent > TabsAndSpaces(line) and line ~= "" then
+      min_indent = TabsAndSpaces(line)
     end
     tmp = tmp + 1
   end
